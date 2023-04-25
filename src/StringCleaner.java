@@ -2,9 +2,17 @@ import java.io.*;
 import java.util.*;
 
 public class StringCleaner {
-    public static void cleanAndSort(String inputFileName, String outputFileName) throws IOException {
+    public static boolean cleanAndSort(String inputFileName, String outputFileName) throws IOException {
         // читаємо рядки з файлу та вилучаємо порожні рядки
-        List<String> lines = readLines(inputFileName);
+
+
+        List<String> lines;
+        try {
+            lines = readLines(inputFileName);
+        } catch (IOException e) {
+            return false;
+            //throw new RuntimeException(e);
+        }
         lines.removeIf(line -> line.trim().isEmpty());
 
         // вилучаємо символи, які не є маленькими латинськими літерами, та сортуємо рядки
@@ -26,6 +34,8 @@ public class StringCleaner {
                 writer.println(line);
             }
         }
+
+        return true;
     }
 
     private static List<String> readLines(String fileName) throws IOException {

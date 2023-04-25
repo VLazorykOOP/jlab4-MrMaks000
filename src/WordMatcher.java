@@ -1,13 +1,21 @@
 import java.io.*;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class WordMatcher {
-    public static void matchWords(String file1, String file2, String outputFile) throws IOException {
+    public static boolean matchWords(String file1, String file2, String outputFile) throws IOException {
         // читаємо тексти з файлів
-        String text1 = readFile(file1);
-        String text2 = readFile(file2);
+        String text1;
+        String text2;
+        try {
+            text1 = readFile(file1);
+            text2 = readFile(file2);
+        } catch (IOException e) {
+            System.out.print("Invalid data entered\n");
+            System.out.print("Impute again\n");
+            return false;
+            //throw new RuntimeException(e);
+
+        }
 
         // приводимо тексти до верхнього регістру та розбиваємо на слова
         Set<String> words1 = extractWords(text1.toUpperCase());
@@ -36,6 +44,7 @@ public class WordMatcher {
         for (String word : commonWords) {
             System.out.println(word);
         }
+        return true;
     }
 
     private static String readFile(String fileName) throws IOException {
